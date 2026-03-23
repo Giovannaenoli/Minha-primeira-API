@@ -20,7 +20,7 @@ app.get('/', (req, res) => {
 });
 
 // 6. Endpoint de informações
-app.get('/dados/1', (req, res) => {
+app.get('/info', (req, res) => {
     res.json({
         nome: 'Minha API REST',
         versao: '1.0.0',
@@ -28,7 +28,7 @@ app.get('/dados/1', (req, res) => {
     });
 });
 
-// 7. Iniciar servidor
+// Iniciar servidor
 app.listen(PORT, () => {
     console.log(`🚀 Servidor rodando em http://localhost:${PORT}`);
 });
