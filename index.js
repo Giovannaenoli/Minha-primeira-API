@@ -39,19 +39,19 @@ app.get('/info', (req, res) => {
     });
 });
 
-// Listar produtos
+// GET /api/produtos
 app.get('/api/produtos', (req, res) => {
     res.json(produtos);
 });
 
-// Buscar por ID
+// GET /api/produtos/:id
 app.get('/api/produtos/:id', (req, res) => {
     const produto = produtos.find(p => p.id === parseInt(req.params.id));
     if (!produto) return res.status(404).json({ erro: "Produto não encontrado" });
     res.json(produto);
 });
 
-// Criar produto
+// POST /api/produtos
 app.post('/api/produtos', (req, res) => {
     const { nome, preco, categoria } = req.body;
 
@@ -88,6 +88,31 @@ app.post('/api/produtos', (req, res) => {
 
     produtos.push(novoProduto);
     res.status(201).json(novoProduto);
+});
+
+// PUT
+app.put('/api/produtos/:id', (req, res) => {
+    const produto = produtos.find(p => p.id === parseInt(req.params.id));
+    if (!produto) return res.status(404).json({ erro: "Não encontrado" });
+
+    const { nome, preco, categoria } = req.body;
+    if (!nome || !preco || !categoria) {
+        return res.status(400).json({ erro: "Campos obrigatórios faltando" });
+    }
+
+    produto.nome = nome;
+    produto.preco = preco;
+    produto.categoria = categoria;
+    res.json(produto);
+});
+
+// DELETE
+app.delete('/api/produtos/:id', (req, res) => {
+    const index = produtos.findIndex(p => p.id === parseInt(req.params.id));
+    if (index === -1) return res.status(404).json({ erro: "Não encontrado" });
+
+    produtos.splice(index, 1);
+    res.status(204).send();
 });
 
 // Iniciar servidor
