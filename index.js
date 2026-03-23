@@ -51,6 +51,45 @@ app.get('/api/produtos/:id', (req, res) => {
     res.json(produto);
 });
 
+// Criar produto
+app.post('/api/produtos', (req, res) => {
+    const { nome, preco, categoria } = req.body;
+
+    if (!nome || !preco || !categoria) {
+        return res.status(400).json({
+            erro: "Campos obrigatórios: nome, preco, categoria"
+        });
+    }
+
+    if (typeof preco !== 'number') {
+        return res.status(400).json({
+            erro: "Preço deve ser um número"
+        });
+    }
+
+    if (preco <= 0) {
+        return res.status(400).json({
+            erro: "Preço deve ser maior que zero"
+        });
+    }
+
+    if (nome.length < 3) {
+        return res.status(400).json({
+            erro: "Nome deve ter pelo menos 3 caracteres"
+        });
+    }
+
+    const novoProduto = {
+        id: proximoId++,
+        nome,
+        preco,
+        categoria
+    };
+
+    produtos.push(novoProduto);
+    res.status(201).json(novoProduto);
+});
+
 // Iniciar servidor
 app.listen(PORT, () => {
     console.log(`🚀 Servidor rodando em http://localhost:${PORT}`);
