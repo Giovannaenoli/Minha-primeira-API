@@ -39,9 +39,16 @@ app.get('/info', (req, res) => {
     });
 });
 
-// GET /api/produtos
+// Listar produtos
 app.get('/api/produtos', (req, res) => {
     res.json(produtos);
+});
+
+// Buscar por ID
+app.get('/api/produtos/:id', (req, res) => {
+    const produto = produtos.find(p => p.id === parseInt(req.params.id));
+    if (!produto) return res.status(404).json({ erro: "Produto não encontrado" });
+    res.json(produto);
 });
 
 // Iniciar servidor
