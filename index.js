@@ -39,6 +39,11 @@ app.get('/info', (req, res) => {
     });
 });
 
+// GET /api/produtos
+app.get('/api/produtos', (req, res) => {
+    res.json(produtos);
+});
+
 // Iniciar servidor
 app.listen(PORT, () => {
     console.log(`🚀 Servidor rodando em http://localhost:${PORT}`);
